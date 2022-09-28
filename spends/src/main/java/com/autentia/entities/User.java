@@ -1,5 +1,6 @@
 package com.autentia.entities;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,8 +33,8 @@ public class User {
     private String username;
 
     @NonNull
-    @Column(name = "password", nullable = false, length = 60)
-    private String password;
+    @Column(name = "debt", nullable = false)
+    private BigDecimal debt;
 
     @OneToMany(mappedBy = "user")
     @ToString.Exclude

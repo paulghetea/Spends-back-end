@@ -17,6 +17,7 @@ import io.micronaut.scheduling.annotation.ExecuteOn;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 @ExecuteOn(TaskExecutors.IO)
@@ -25,7 +26,7 @@ class UserController {
     @Inject
     private UserRepository userRepository;
 
-    @Get(value = "/list", produces = MediaType.APPLICATION_JSON)
+    @Get(produces = MediaType.APPLICATION_JSON)
     public List<User> list() {
         return userRepository.findAll();
     }
@@ -33,8 +34,9 @@ class UserController {
     @Post(consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
     public HttpResponse<?> save(@Body @Valid UserSaveCommand cmd) {
+        System.out.println(cmd);
         try {
-            User user = userRepository.save(new User(cmd.getName(), cmd.getPassword()));
+            User user = userRepository.save(new User(cmd.getUsername(), new BigDecimal(0)));
             return HttpResponse.created(user);
         }catch(Exception e){
             e.printStackTrace();

@@ -1,5 +1,6 @@
 package com.autentia.repositoryImpl;
 
+import com.autentia.Exceptions.BussinesException;
 import com.autentia.entities.User;
 import com.autentia.repository.UserRepository;
 import io.micronaut.data.annotation.Repository;
@@ -12,8 +13,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @Singleton
@@ -26,7 +28,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @TransactionalAdvice
+    @TransactionalAdvice(noRollbackFor = BussinesException.class)
     public User save(@NotBlank User user) {
         this.entityManager.persist(user);
         return user;
@@ -43,6 +45,19 @@ public class UserRepositoryImpl implements UserRepository {
     @ReadOnly
     public User findById(long id) {
         return entityManager.find(User.class, id);
+    }
+
+    @Override
+    @ReadOnly
+    public BigInteger countUsers() {
+        return (BigInteger) entityManager.createNativeQuery("SELECT count(*) FROM Users").getSingleResult();
+        //return null;
+    }
+    @Override
+    @TransactionalAdvice(noRollbackFor = BussinesException.class)
+    public void setDebt(Integer id, BigDecimal newDebt) {
+        String qlString = "update User u set u.debt = u.debt + " + newDebt + " where u.idUser = " + id;
+        entityManager.createQuery(qlString).executeUpdate();
     }
 }
 

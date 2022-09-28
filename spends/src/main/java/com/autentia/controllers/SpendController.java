@@ -1,6 +1,5 @@
 package com.autentia.controllers;
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -11,6 +10,7 @@ import com.autentia.entities.User;
 import com.autentia.repository.SpendRepository;
 
 import com.autentia.repository.UserRepository;
+import com.autentia.services.RecalculateDebtService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
@@ -29,7 +29,11 @@ class SpendController {
     @Inject
     private UserRepository userRepository;
 
-    @Get(value = "/list", produces = MediaType.APPLICATION_JSON)
+    @Inject
+    private RecalculateDebtService recalculateDebtService;
+
+
+    @Get(produces = MediaType.APPLICATION_JSON)
     public List<Spend> list() {
         return spendRepository.findAll();
     }
@@ -37,17 +41,14 @@ class SpendController {
     @Post(consumes = MediaType.APPLICATION_JSON,
             produces = MediaType.APPLICATION_JSON)
     public HttpResponse<?> save(@Body @Valid SpendSaveCommand cmd) {
-        System.out.println(cmd.getName() + "--------------------------------------");
         try {
             User user = userRepository.findById(cmd.getUserId());
-            Spend spend = spendRepository.save(new Spend(cmd.getName(), user, cmd.getCost(), cmd.getDate()));
-            //Spend spend = spendRepository.save(new Spend("Cena", new User(), new BigDecimal(13), new Date(2014, 2, 11)));
+            Spend spend = spendRepository.save(new Spend(cmd.getDescription(), user, cmd.getCost(), cmd.getDate()));
+            recalculateDebtService.calculateDebt(cmd.getUserId(), cmd.getCost());
             return HttpResponse.created(spend);
         }catch(Exception e){
             e.printStackTrace();
             return HttpResponse.serverError();
         }
-
     }
-
 }

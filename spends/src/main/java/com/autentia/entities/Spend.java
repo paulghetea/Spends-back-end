@@ -24,8 +24,8 @@ public class Spend {
     private Long id;
 
     @NonNull
-    @Column(name = "description", nullable = false, unique = true)
-    private String name;
+    @Column(name = "description", nullable = false)
+    private String description;
 
     @NonNull
     @ManyToOne
@@ -33,7 +33,7 @@ public class Spend {
     private User user;
 
     @NonNull
-    @Column(name = "cost", nullable = false, unique = true)
+    @Column(name = "cost", nullable = false)
     private BigDecimal cost;
 
     @NonNull

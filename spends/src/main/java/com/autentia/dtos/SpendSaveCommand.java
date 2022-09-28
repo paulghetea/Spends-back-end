@@ -16,17 +16,14 @@ import java.util.Date;
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class SpendSaveCommand {
-
     @NonNull
-    private String name;
+    private String description;
 
+    private User user;
     @NonNull
     private Long userId;
-
     @NonNull
     private BigDecimal cost;
-
     @NonNull
     private Date date;
-
 }

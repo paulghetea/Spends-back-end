@@ -15,9 +15,6 @@ import java.util.Date;
 public class UserSaveCommand {
 
     @NonNull
-    private String name;
-
-    @NonNull
-    private String password;
+    private String username;
 
 }

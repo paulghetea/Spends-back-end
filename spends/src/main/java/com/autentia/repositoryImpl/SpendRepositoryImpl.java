@@ -9,8 +9,8 @@ import io.micronaut.transaction.annotation.TransactionalAdvice;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -33,10 +33,12 @@ import java.util.List;
 
         @ReadOnly
         public List<Spend> findAll() {
-            String qlString = "from Spend";
+            String qlString = "from Spend s ORDER BY s.date DESC, s.date DESC";
             TypedQuery<Spend> query = entityManager.createQuery(qlString, Spend.class);
             return query.getResultList();
         }
+
+
 
     }
 
