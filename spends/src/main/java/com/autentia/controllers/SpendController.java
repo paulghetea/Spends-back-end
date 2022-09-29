@@ -10,7 +10,8 @@ import com.autentia.entities.User;
 import com.autentia.repository.SpendRepository;
 
 import com.autentia.repository.UserRepository;
-import com.autentia.services.RecalculateDebtService;
+import com.autentia.services.SpendService;
+import com.autentia.servicesImpl.SpendServiceImpl;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
@@ -30,7 +31,7 @@ class SpendController {
     private UserRepository userRepository;
 
     @Inject
-    private RecalculateDebtService recalculateDebtService;
+    private SpendService recalculateDebtService;
 
 
     @Get(produces = MediaType.APPLICATION_JSON)

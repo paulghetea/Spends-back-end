@@ -1,6 +1,5 @@
 package com.autentia.repositoryImpl;
 
-import com.autentia.Exceptions.BussinesException;
 import com.autentia.entities.User;
 import com.autentia.repository.UserRepository;
 import io.micronaut.data.annotation.Repository;
@@ -28,7 +27,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @TransactionalAdvice(noRollbackFor = BussinesException.class)
+    @TransactionalAdvice(noRollbackFor = Exception.class)
     public User save(@NotBlank User user) {
         this.entityManager.persist(user);
         return user;
@@ -54,7 +53,7 @@ public class UserRepositoryImpl implements UserRepository {
         //return null;
     }
     @Override
-    @TransactionalAdvice(noRollbackFor = BussinesException.class)
+    @TransactionalAdvice(noRollbackFor = Exception.class)
     public void setDebt(Integer id, BigDecimal newDebt) {
         String qlString = "update User u set u.debt = u.debt + " + newDebt + " where u.idUser = " + id;
         entityManager.createQuery(qlString).executeUpdate();

@@ -2,13 +2,10 @@ package com.autentia.entities;
 
 import lombok.*;
 
-import static javax.persistence.GenerationType.AUTO;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "spends")

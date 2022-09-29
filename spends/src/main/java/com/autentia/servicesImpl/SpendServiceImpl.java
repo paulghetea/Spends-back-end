@@ -1,22 +1,21 @@
-package com.autentia.services;
+package com.autentia.servicesImpl;
 
-import com.autentia.entities.User;
 import com.autentia.repository.SpendRepository;
 import com.autentia.repository.UserRepository;
+import com.autentia.services.SpendService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
 
 @Singleton
-public class RecalculateDebtService {
+public class SpendServiceImpl implements SpendService {
     @Inject
     private SpendRepository spendRepository;
     @Inject
     private UserRepository userRepository;
-    public String newSpend(){
+    public String helloAutentia(){
         return "Hello Autentia";
     }
     public void calculateDebt(Long id, BigDecimal totalDebt){
